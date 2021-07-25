@@ -1,0 +1,21 @@
+version: "3"
+services:
+  mosquitto:
+    build: ./mosquitto/.
+    container_name: mosquitto
+    image: nullping/mosquitto:latest
+    ports:
+      - "0.0.0.0:8883:8883"
+    volumes:
+      - "./runtime:/runtime"
+      - "/data/ssl-certs/mqtt:/runtime/mosquitto/ssl:ro"
+    restart: unless-stopped
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+      - subnet:  172.101.0.1/16
